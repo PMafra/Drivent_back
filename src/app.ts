@@ -22,6 +22,6 @@ app.use(errorHandlingMiddleware);
 
 export async function init() {
   await connectDatabase();
-}
+
 
 export default app;
