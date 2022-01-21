@@ -10,7 +10,8 @@ export async function createNewUser(email: string, password: string) {
   if (dayjs().isBefore(dayjs(settings.startDate))) {
     throw new CannotEnrollBeforeStartDateError();
   }
-
+ 
   const user = await User.createNew(email, password);
+
   return user;
 }

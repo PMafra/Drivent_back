@@ -11,6 +11,9 @@ export default class Ticket extends BaseEntity {
   @Column()
   isPaid: boolean;
 
+  @Column()
+  userId: number;
+
   @ManyToOne(() => Modality, (modality: Modality) => (modality.tickets), {
     eager: true,
     nullable: false,
@@ -31,4 +34,8 @@ export default class Ticket extends BaseEntity {
   })
   @JoinColumn({ name: "roomId" })
     room: Room;
+
+  static async getTicketInfos(userId: number) {
+    return await this.find({ where: { userId } });
+  }
 }
