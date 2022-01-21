@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import httpStatus from "http-status";
 
 import * as roomService from "../../services/client/room";
@@ -11,4 +11,17 @@ export async function getRoomInfos(req: Request, res: Response) {
   }
   
   res.send(roomInfo).status(httpStatus.OK);
+}
+
+export async function updateTicketRoom(req: Request, res: Response, next: NextFunction) {
+  const { roomId } = req.body;
+  const { ticketId } = req.params;
+
+  try {
+    if (!ticketId || !roomId) return res.sendStatus(400);
+
+    res.sendStatus(201);
+  } catch (error) {
+    next(error);
+  }
 }
