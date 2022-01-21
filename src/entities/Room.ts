@@ -25,5 +25,17 @@ export default class Room extends BaseEntity {
   static async getRoomInfos() {
     return await this.find();
   }
+
+  static async updateRoomInfo(id: number, value: number) {
+    const room = await this.findOne({ id });
+    room.occupiedBeds+= value;
+    return await this.createQueryBuilder().update(this).set({
+      occupiedBeds: room.occupiedBeds,
+    })
+      .where(
+        "id = :id", { id }
+      )
+      .execute();
+  }
 }
 
