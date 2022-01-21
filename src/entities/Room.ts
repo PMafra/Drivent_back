@@ -21,5 +21,9 @@ export default class Room extends BaseEntity {
   })
   @JoinColumn({ name: "hotelId" })
     hotel: Hotel;
+
+  static async getRoomInfos() {
+    return await this.find();
+  }
 }
 
