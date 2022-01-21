@@ -19,8 +19,9 @@ export default class User extends BaseEntity {
   static async createNew(email: string, password: string) {
     await this.validateDuplicateEmail(email);
     const hashedPassword = this.hashPassword(password);
-
+   
     const newUser = this.create({ email, password: hashedPassword });
+  
     await newUser.save();
 
     return newUser;
