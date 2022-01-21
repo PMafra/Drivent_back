@@ -15,11 +15,11 @@ export async function getRoomInfos(req: Request, res: Response) {
 
 export async function updateTicketRoom(req: Request, res: Response, next: NextFunction) {
   const { roomId } = req.body;
-  const { ticketId } = req.params;
+  const { userId } = req.params;
 
   try {
-    if (!ticketId || !roomId) return res.sendStatus(400);
-
+    if (!userId || !roomId) return res.sendStatus(400);
+    await roomService.updateticketRoom(Number(userId), roomId);
     res.sendStatus(201);
   } catch (error) {
     next(error);

@@ -5,6 +5,6 @@ import * as controller from "@/controllers/client/room";
 const router = Router();
 
 router.get("/", controller.getRoomInfos);
-router.post("/:ticketId", controller.updateTicketRoom);
+router.post("/:userId", controller.updateTicketRoom);
 
 export default router;
