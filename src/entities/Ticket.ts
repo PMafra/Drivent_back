@@ -14,6 +14,9 @@ export default class Ticket extends BaseEntity {
   @Column()
   userId: number;
 
+  @Column()
+  roomId: number | null;
+
   @ManyToOne(() => Modality, (modality: Modality) => (modality.tickets), {
     eager: true,
     nullable: false,
@@ -37,5 +40,15 @@ export default class Ticket extends BaseEntity {
 
   static async getTicketInfos(userId: number) {
     return await this.find({ where: { userId } });
+  }
+
+  static async updateTicketRoom(userId: number, roomId: number) {
+    return await this.createQueryBuilder().update(this).set({
+      roomId,
+    })
+      .where(
+        "userId = :userId", { userId }
+      )
+      .execute();
   }
 }
