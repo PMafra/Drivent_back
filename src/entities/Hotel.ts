@@ -14,4 +14,8 @@ export default class Hotel extends BaseEntity {
 
   @OneToMany(() => Room, (room: Room) => (room.hotel))
   rooms: Room[];
+
+  static async getHotelInfos(userId: number) {
+    return await this.find({ where: { userId } });
+  }
 }
