@@ -1,12 +1,10 @@
 /* eslint-disable no-undef */
-import { getConnection, getRepository } from "typeorm";
+import { getConnection } from "typeorm";
 import app, { init } from "../../app";
 import supertest from "supertest";
 import "../../setup.ts";
-import Session from "@/entities/Session";
-import User from "@/entities/User";
-import { validNewTokenFactory } from "../../factories/session.factory";
-import Ticket from "@/entities/Ticket";
+import { validNewTokenFactory } from "../factories/session.factory";
+import * as databaseHelper from "../helpers/databaseHelper";
 
 beforeAll(async() => {
   await init();
@@ -17,9 +15,7 @@ afterAll(async() => {
 });
 
 beforeEach(async() => {
-  await getRepository(Session).delete({});
-  await getRepository(Ticket).delete({});
-  await getRepository(User).delete({});
+  await databaseHelper.clear();
 });
 
 describe("GET /hotels", () => {
