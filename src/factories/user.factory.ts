@@ -1,8 +1,8 @@
-import { createNewUser } from "../services/client/user";
+import User from "@/entities/User";
 
 export async function validNewUserFactory() {
   const email = "teste@teste.com";
-  const password = "123456";
-  const newUser = await createNewUser(email, password);
+  const password = "Drivent123";
+  const newUser = await User.createNew(email, password);
   return newUser;
 }
