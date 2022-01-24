@@ -55,6 +55,10 @@ export default class Ticket extends BaseEntity {
     return await this.find({ where: { userId } });
   }
 
+  static async confirmPayment(userId: number) {
+    return await this.update({ userId: userId }, { isPaid: true });
+  }
+  
   static async postTicketInfos(ticket: TicketInterface) {
     const ticketSave = this.create(ticket);
     await ticketSave.save();

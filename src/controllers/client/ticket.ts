@@ -10,8 +10,17 @@ export async function getTicketInfos(req: Request, res: Response) {
   if (!ticketInfo) {
     return res.sendStatus(httpStatus.NO_CONTENT);
   }
+  
+  return res.send(ticketInfo).status(httpStatus.OK);
+}
 
-  res.send(ticketInfo).status(httpStatus.OK);
+export async function confirmPayment(req: Request, res: Response) {
+  try { 
+    await ticketService.confirmPayment(req.user.id);
+    return res.sendStatus(httpStatus.OK);
+  } catch {
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
 }
 
 export async function postTicketInfos(req: Request, res: Response) {

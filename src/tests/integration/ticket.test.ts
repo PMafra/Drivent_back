@@ -25,3 +25,11 @@ describe("GET /tickets", () => {
     expect(Array.isArray(result.body)).toBe(true);
   });
 });
+
+describe("POST /tickets/payment", () => {
+  test("returns status 200 when token is valid", async() => {
+    const token = await validNewTokenFactory();
+    const result = await supertest(app).post("/tickets/payment").set("Authorization", `Bearer ${token}`);
+    expect(result.status).toEqual(200);
+  });
+});
