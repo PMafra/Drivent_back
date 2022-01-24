@@ -16,5 +16,5 @@ export default {
   cli: {
     migrationsDir: "src/migrations",
     entitiesDir: "dist/entities/*.js"
-  }
+  },
 };

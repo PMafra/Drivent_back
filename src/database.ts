@@ -5,8 +5,7 @@ if (process.env.NODE_ENV === "production" && process.env.DATABASE_URL.indexOf("s
 }
 
 export default async function connect() {
-  const connectionManager = await getConnectionManager();
-    
+  const connectionManager = getConnectionManager();
   const connection = connectionManager.create({
     name: "default",
     type: "postgres",
@@ -16,6 +15,5 @@ export default async function connect() {
   });
 
   await connection.connect();
-
   return connection;
 }
