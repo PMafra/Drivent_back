@@ -30,6 +30,7 @@ export async function postTicketInfos(req: Request, res: Response) {
     await ticketService.postTicketInfos(ticket);
     return res.sendStatus(httpStatus.OK);
   } catch (error) {
+    console.log(error);
     if (error.name === "QueryFailedError") {
       return res.sendStatus(409);
     }
