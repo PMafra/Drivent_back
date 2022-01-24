@@ -20,6 +20,7 @@ export default class Ticket extends BaseEntity {
   @ManyToOne(() => Modality, (modality: Modality) => (modality.tickets), {
     eager: true,
     nullable: false,
+    onDelete: "CASCADE",
   })
   @JoinColumn({ name: "modalityId" })
     modality: Modality;
