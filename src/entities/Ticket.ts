@@ -6,6 +6,7 @@ import {
   ManyToOne,
   JoinColumn,
   OneToOne,
+  OneToMany,
 } from "typeorm";
 import Modality from "./Modality";
 import User from "./User";
@@ -23,7 +24,7 @@ export default class Ticket extends BaseEntity {
   @Column()
   userId: number;
 
-  @Column()
+  @Column({ nullable: true })
   roomId: number | null;
 
   @Column()
@@ -44,12 +45,12 @@ export default class Ticket extends BaseEntity {
   @JoinColumn({ name: "userId" })
   user: User;
 
-  @OneToOne(() => Room, {
+  @ManyToOne(() => Room, (room: Room) => (room.tickets), {
     eager: true,
     nullable: true,
   })
   @JoinColumn({ name: "roomId" })
-  room: Room;
+    room: Room;
 
   static async getTicketInfos(userId: number) {
     return await this.find({ where: { userId } });

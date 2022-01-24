@@ -1,5 +1,6 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne } from "typeorm";
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne, OneToMany } from "typeorm";
 import Hotel from "./Hotel";
+import Ticket from "./Ticket";
 
 @Entity("rooms")
 export default class Room extends BaseEntity {
@@ -21,7 +22,10 @@ export default class Room extends BaseEntity {
   })
   @JoinColumn({ name: "hotelId" })
     hotel: Hotel;
-
+  
+  @OneToMany(() => Ticket, (ticket: Ticket) => (ticket.room))
+    tickets: Ticket[];
+  
   static async getRoomInfos() {
     return await this.find();
   }
