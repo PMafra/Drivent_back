@@ -1,4 +1,5 @@
 import Ticket from "../../entities/Ticket";
+import TicketInterface from "@/interfaces/ticket";
 
 export async function getTicketInfos(userId: number) {
   return await Ticket.getTicketInfos(userId);
@@ -6,4 +7,8 @@ export async function getTicketInfos(userId: number) {
 
 export async function confirmPayment(userId: number) {
   return await Ticket.confirmPayment(userId);
+}
+
+export async function postTicketInfos(ticket: TicketInterface) {
+  await Ticket.postTicketInfos(ticket);
 }
