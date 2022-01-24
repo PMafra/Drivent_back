@@ -10,5 +10,14 @@ export async function getTicketInfos(req: Request, res: Response) {
     return res.sendStatus(httpStatus.NO_CONTENT);
   }
   
-  res.send(ticketInfo).status(httpStatus.OK);
+  return res.send(ticketInfo).status(httpStatus.OK);
+}
+
+export async function confirmPayment(req: Request, res: Response) {
+  try { 
+    await ticketService.confirmPayment(req.user.id);
+    return res.sendStatus(httpStatus.OK);
+  } catch {
+    return res.sendStatus(httpStatus.BAD_REQUEST);
+  }
 }

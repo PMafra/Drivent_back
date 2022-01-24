@@ -6,4 +6,6 @@ const router = Router();
 
 router.get("/", controller.getTicketInfos);
 
+router.post("/payment", controller.confirmPayment);
+
 export default router;

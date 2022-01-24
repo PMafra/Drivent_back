@@ -42,6 +42,10 @@ export default class Ticket extends BaseEntity {
     return await this.find({ where: { userId } });
   }
 
+  static async confirmPayment(userId: number) {
+    return await this.update({ userId: userId }, { isPaid: true });
+  }
+
   static async updateTicketRoom(userId: number, roomId: number) {
     return await this.createQueryBuilder().update(this).set({
       roomId,
