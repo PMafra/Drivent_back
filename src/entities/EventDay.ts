@@ -1,4 +1,4 @@
-import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany, Timestamp } from "typeorm";
+import { BaseEntity, Entity, PrimaryGeneratedColumn, Column, OneToMany } from "typeorm";
 import Activity from "./Activity";
 
 @Entity("eventDays")
@@ -7,7 +7,7 @@ export default class EventDay extends BaseEntity {
   id: number;
 
   @Column()
-  day: Timestamp;
+  day: Date;
   
   @OneToMany(() => Activity, (activity: Activity) => (activity.eventDay))
     activities: Activity[];

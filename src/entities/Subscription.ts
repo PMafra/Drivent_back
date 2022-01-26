@@ -11,12 +11,14 @@ export default class Subscription extends BaseEntity {
   
     @ManyToOne(() => Activity, (activity: Activity) => (activity.subscriptions), {
       eager: true,
+      nullable: false,
     })
     @JoinColumn()
       activity: Activity;
   
     @ManyToOne(() => Ticket, (ticket: Ticket) => (ticket.subscriptions), {
       eager: true,
+      nullable: false,
     })
     @JoinColumn()
       ticket: Ticket;
