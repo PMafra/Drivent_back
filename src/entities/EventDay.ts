@@ -11,4 +11,8 @@ export default class EventDay extends BaseEntity {
   
   @OneToMany(() => Activity, (activity: Activity) => (activity.eventDay))
     activities: Activity[];
+
+  static async getEventDayInfos() {
+    return await this.find();
+  }
 }

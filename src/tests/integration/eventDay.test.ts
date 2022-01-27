@@ -1,7 +1,7 @@
 import { getConnection } from "typeorm";
 import app, { init } from "../../app";
-import "../../setup";
 import supertest from "supertest";
+import "../../setup";
 import { validNewTokenFactory } from "../factories/session.factory";
 import * as databaseHelper from "../helpers/databaseHelper";
 
@@ -17,19 +17,26 @@ beforeEach(async() => {
   await databaseHelper.clear();
 });
 
-describe("GET /hotels", () => {
-  test("returns status 200 with array of all hotel rooms when token is valid", async() => {
+describe("GET /event-days", () => {
+  test("returns status 200 with array of all event days when token is valid", async() => {
     const token = await validNewTokenFactory();
-    const result = await supertest(app).get("/hotels").set("Authorization", `Bearer ${token}`);
+    const result = await supertest(app).get("/event-days").set("Authorization", `Bearer ${token}`);
     expect(result.status).toEqual(200);
     expect(Array.isArray(result.body)).toBe(true);
     result.body.forEach(() =>
       expect.objectContaining({
         id: expect.any(Number),
-        name: expect.any(String),
-        imgUrl: expect.any(String),
+        day: expect.any(Date),
       }),
     );
+  });
+});
+
+describe("GET /event-days", () => {
+  test("returns unauthorized error when token is invalid", async() => {
+    const token = "invalid token";
+    const result = await supertest(app).get("/event-days").set("Authorization", `Bearer ${token}`);
+    expect(result.status).toEqual(401);
   });
 });
 

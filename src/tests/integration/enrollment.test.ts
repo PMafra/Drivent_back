@@ -1,7 +1,7 @@
 import { getConnection } from "typeorm";
 import app, { init } from "../../app";
 import supertest from "supertest";
-import "../../setup.ts";
+import "../../setup";
 import { validNewTokenFactory } from "../factories/session.factory";
 import * as databaseHelper from "../helpers/databaseHelper";
 
