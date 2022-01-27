@@ -11,6 +11,7 @@ import {
 import Modality from "./Modality";
 import User from "./User";
 import Room from "./Room";
+import Subscription from "./Subscription";
 import TicketInterface from "@/interfaces/ticket";
 
 @Entity("tickets")
@@ -51,6 +52,9 @@ export default class Ticket extends BaseEntity {
   })
   @JoinColumn({ name: "roomId" })
     room: Room;
+
+  @OneToMany(() => Subscription, (subscription) => subscription.ticket)
+    subscriptions: Subscription[];
 
   static async getTicketInfos(userId: number) {
     return await this.find({ where: { userId } });
