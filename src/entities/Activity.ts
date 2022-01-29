@@ -31,6 +31,9 @@ export default class Activity extends BaseEntity {
   @Column()
   eventDayId: number;
 
+  @Column()
+  hallId: number;
+
   @ManyToOne(() => EventDay, (eventDay: EventDay) => (eventDay.activities), {
     eager: true,
     nullable: false,
@@ -47,4 +50,8 @@ export default class Activity extends BaseEntity {
 
   @OneToMany(() => Subscription, (subscription) => subscription.activity)
     subscriptions: Subscription[];
+
+  static async getEventDayActivities(eventDayId: number) {
+    return await this.find({ where: { eventDayId } });
+  }
 }

@@ -8,6 +8,7 @@ import ticketRouter from "@/routers/client/ticket";
 import hotelRouter from "@/routers/client/hotel";
 import roomRouter from "@/routers/client/room";
 import eventDayRouter from "@/routers/client/eventDay";
+import activityRouter from "@/routers/client/activity";
 
 import tokenValidationMiddleware from "@/middlewares/tokenValidationMiddleware";
 
@@ -21,5 +22,6 @@ router.use("/tickets", tokenValidationMiddleware, ticketRouter);
 router.use("/hotels", tokenValidationMiddleware, hotelRouter);
 router.use("/rooms", tokenValidationMiddleware, roomRouter);
 router.use("/event-days", tokenValidationMiddleware, eventDayRouter);
+router.use("/activities", tokenValidationMiddleware, activityRouter);
 
 export default router;
