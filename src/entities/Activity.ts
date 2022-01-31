@@ -105,8 +105,6 @@ export default class Activity extends BaseEntity {
       relations: ["activity"],
     });
     this.checkTimingConflict(allActivities, activity);
-    activity.totalSeats -= 1;
-    await activity.save();
     await Subscription.insert({ ticketId, activityId });
   }
 }
