@@ -69,15 +69,13 @@ export default class Activity extends BaseEntity {
         String(allActivities[i].activity.eventDay.day) ===
         String(activity.eventDay.day)
       ) {
+        const clientsActivitiesStart = allActivities[i].activity.startTime;
+        const clientsAcitiviesEnd = allActivities[i].activity.endTime;
         if (
-          (allActivities[i].activity.startTime >= activity.startTime &&
-            allActivities[i].activity.startTime < activity.endTime) ||
-          (allActivities[i].activity.endTime >= activity.startTime &&
-            allActivities[i].activity.endTime <= activity.endTime) ||
-          (allActivities[i].activity.startTime <= activity.startTime &&
-            allActivities[i].activity.endTime >= activity.endTime) ||
-          (allActivities[i].activity.startTime >= activity.startTime &&
-            allActivities[i].activity.endTime <= activity.endTime)
+          (clientsActivitiesStart > activity.startTime && clientsActivitiesStart < activity.endTime) ||
+          (clientsAcitiviesEnd > activity.startTime && clientsAcitiviesEnd < activity.endTime) ||
+          (clientsActivitiesStart < activity.startTime && clientsAcitiviesEnd > activity.endTime) ||
+          (clientsActivitiesStart > activity.startTime && clientsAcitiviesEnd < activity.endTime)
         ) {
           throw new ConflictError("O usuario já tem atividadades nesse horario");
         }
