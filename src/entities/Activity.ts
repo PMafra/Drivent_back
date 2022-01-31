@@ -48,7 +48,7 @@ export default class Activity extends BaseEntity {
   @JoinColumn({ name: "hallId" })
     hall: Hall;
 
-  @OneToMany(() => Subscription, (subscription) => subscription.activity)
+  @OneToMany(() => Subscription, (subscription) => subscription.activity, { eager: true })
     subscriptions: Subscription[];
 
   static async getEventDayActivities(eventDayId: number) {
