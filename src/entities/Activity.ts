@@ -11,6 +11,8 @@ import EventDay from "./EventDay";
 import Hall from "./Hall";
 import Subscription from "./Subscription";
 import NotValidEntity from "@/errors/NotValidEntity";
+import SubscriptionInterface from "@/interfaces/SubscriptionInterface";
+import ConflictError from "@/errors/ConflictError";
 
 @Entity("activities")
 export default class Activity extends BaseEntity {
@@ -49,18 +51,43 @@ export default class Activity extends BaseEntity {
   @JoinColumn({ name: "hallId" })
   hall: Hall;
 
-  @OneToMany(() => Subscription, (subscription) => subscription.activity, { eager: true })
-    subscriptions: Subscription[];
+  @OneToMany(() => Subscription, (subscription) => subscription.activity, {
+    eager: true,
+  })
+  subscriptions: Subscription[];
 
   static async getEventDayActivities(eventDayId: number) {
     return await this.find({ where: { eventDayId } });
   }
 
-  static checkTimingConflict(allActivities: Subscription[], activity: Activity) {
-    return;
+  static checkTimingConflict(
+    allActivities: Subscription[],
+    activity: Activity
+  ) {
+    for (let i = 0; i < allActivities.length; i++) {
+      if (
+        String(allActivities[i].activity.eventDay.day) ===
+        String(activity.eventDay.day)
+      ) {
+        if (
+          (allActivities[i].activity.startTime >= activity.startTime &&
+            allActivities[i].activity.startTime < activity.endTime) ||
+          (allActivities[i].activity.endTime >= activity.startTime &&
+            allActivities[i].activity.endTime <= activity.endTime) ||
+          (allActivities[i].activity.startTime <= activity.startTime &&
+            allActivities[i].activity.endTime >= activity.endTime) ||
+          (allActivities[i].activity.startTime >= activity.startTime &&
+            allActivities[i].activity.endTime <= activity.endTime)
+        ) {
+          throw new ConflictError("O usuario já tem atividadades nesse horario");
+        }
+      }
+    }
   }
 
-  static async postSubscribe(ticketId: number, activityId: number) {
+  static async postSubscribe(inscricao: SubscriptionInterface) {
+    const { activityId, ticketId } = inscricao;
+
     const activity = await this.findOne({
       where: { id: activityId },
     });
@@ -75,8 +102,11 @@ export default class Activity extends BaseEntity {
 
     const allActivities = await Subscription.find({
       where: { ticketId },
-      relations: ["activities"],
+      relations: ["activity"],
     });
     this.checkTimingConflict(allActivities, activity);
+    activity.totalSeats -= 1;
+    await activity.save();
+    await Subscription.insert({ ticketId, activityId });
   }
 }
