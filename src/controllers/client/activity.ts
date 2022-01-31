@@ -18,6 +18,22 @@ export async function getEventDayActivities(req: Request, res: Response) {
 
 export async function postSubscribeActivity(req: Request, res: Response) {
   const inscricao = req.body as SubscriptionInterface;
-  await activityService.postSubscribeActivity(inscricao);
-  res.sendStatus(200);
+  try {
+    await activityService.postSubscribeActivity(inscricao);
+    res.sendStatus(200);
+  } catch (error) {
+    if (error.name === "ConflictError") {
+      return res.sendStatus(409);
+    }
+    if (error.message === "Atividade lotada") {
+      return res.sendStatus(400);
+    }
+    if (error.message === "A atividade não existe") {
+      return res.sendStatus(404);
+    }
+    if (error.message === "Usuário ja cadastrado") {
+      return res.sendStatus(401);
+    }
+    return res.sendStatus(500);
+  }
 }
