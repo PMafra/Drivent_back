@@ -72,10 +72,10 @@ export default class Activity extends BaseEntity {
         const clientsActivitiesStart = allActivities[i].activity.startTime;
         const clientsAcitiviesEnd = allActivities[i].activity.endTime;
         if (
-          (clientsActivitiesStart > activity.startTime && clientsActivitiesStart < activity.endTime) ||
-          (clientsAcitiviesEnd > activity.startTime && clientsAcitiviesEnd < activity.endTime) ||
-          (clientsActivitiesStart < activity.startTime && clientsAcitiviesEnd > activity.endTime) ||
-          (clientsActivitiesStart > activity.startTime && clientsAcitiviesEnd < activity.endTime)
+          (clientsActivitiesStart >= activity.startTime && clientsActivitiesStart < activity.endTime) ||
+          (clientsAcitiviesEnd > activity.startTime && clientsAcitiviesEnd <= activity.endTime) ||
+          (clientsActivitiesStart <= activity.startTime && clientsAcitiviesEnd >= activity.endTime) ||
+          (clientsActivitiesStart >= activity.startTime && clientsAcitiviesEnd <= activity.endTime)
         ) {
           throw new ConflictError("O usuario já tem atividadades nesse horario");
         }
